@@ -1,23 +1,27 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/13.1.0">
+<Project Sdk="Dalamud.NET.Sdk/14.0.1">
 
-    <PropertyGroup>
-        <Version>0.0.3</Version>
-        <Description>Ever wanted to get notified when someone targets you or emotes at you? Now you can !</Description>
-        <PackageProjectUrl>https://github.com/MeiHasCrashed/OhHey</PackageProjectUrl>
-        <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-        <IsPackable>false</IsPackable>
-        <ImplicitUsings>true</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Version>0.0.4</Version>
+    <Authors>Mei, BnuuyAster</Authors>
+    <Description>Ever wanted to get notified when someone targets you or emotes at you? Now you can!</Description>
+    <PackageProjectUrl>https://github.com/Dr4gnSt4lk/OhHey</PackageProjectUrl>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <TargetFramework>net10.0</TargetFramework>
+    <DalamudApiLevel>14</DalamudApiLevel>
+    <Platforms>x64</Platforms>
+    <IsPackable>false</IsPackable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <Content Include="images\icon.png" />
-      <Content Include="OhHey.yaml" />
-    </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\icon.png" />
+    <Content Include="OhHey.yaml" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.1.25451.107" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.1.25451.107" />
+  </ItemGroup>
 
 </Project>
