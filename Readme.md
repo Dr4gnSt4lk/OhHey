@@ -11,7 +11,7 @@
 
 ## Description
 
-Originally created by Mei, updated for 7.4 by BnuuyAster
+Originally created by Mei, updated for 7.4 (7.5) by BnuuyAster
 
 Oh Hey! is a Dalamud plugin that has two main features currently:
 - Notifying you when someone targets you
