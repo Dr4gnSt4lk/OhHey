@@ -1,10 +1,10 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Interface.Windowing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace OhHey.Core.IoC;
+namespace OhHeyFixed.Core.IoC;
 
 public static class DalamudServiceExtensions
 {

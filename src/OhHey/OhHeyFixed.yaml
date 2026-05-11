@@ -1,4 +1,4 @@
-api_level: 14
+api_level: 15
 name: Oh Hey!
 author: Mei, BnuuyAster
 punchline: Ever wanted to get notified when someone targets you or emotes at you? Now you can! (Updated for 7.4)
@@ -7,10 +7,10 @@ description: |-
   Originally created by Mei, updated for 7.4 by BnuuyAster
 
   Commands:
-    /ohhey - Opens the main window
-    /ohhey main - Opens the main window
-    /ohhey [config|settings] - Opens the settings window
-    /ohhey help - Displays the help message (will also display on invalid sub-commands)
+    /OhHey - Opens the main window
+    /OhHey main - Opens the main window
+    /OhHey [config|settings] - Opens the settings window
+    /OhHey help - Displays the help message (will also display on invalid sub-commands)
 
 repo_url: https://github.com/Dr4gnSt4lk/OhHey
 icon_url: https://raw.githubusercontent.com/MeiHasCrashed/OhHey/refs/heads/main/src/OhHey/images/icon.png

@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Configuration;
 
-namespace OhHey;
+namespace OhHeyFixed;
 
 [Serializable]
-public class OhHeyConfiguration : IPluginConfiguration
+public class OhHeyFixedConfiguration : IPluginConfiguration
 {
     // General Settings
     public int Version { get; set; } = 0;

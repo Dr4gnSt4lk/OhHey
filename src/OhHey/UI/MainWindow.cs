@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Drawing;
@@ -7,10 +7,11 @@ using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using Dalamud.Plugin.Services;
 using JetBrains.Annotations;
-using OhHey.Services;
+using OhHeyFixed.Services;
 
-namespace OhHey.UI;
+namespace OhHeyFixed.UI;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public sealed class MainWindow : Window, IDisposable
@@ -20,13 +21,17 @@ public sealed class MainWindow : Window, IDisposable
     private readonly TargetService _targetService;
     private readonly EmoteService _emoteService;
     private readonly ConfigurationService _configService;
+    private readonly ITargetManager _targetManager;
+    private readonly IObjectTable _objectTable;
 
     public MainWindow(TargetService targetService, EmoteService emoteService, ConfigurationService configurationService,
-        ConfigurationWindow configWindow) : base("Oh Hey!##ohhey_main_window")
+        ConfigurationWindow configWindow, ITargetManager targetManager, IObjectTable objectTable) : base("Oh Hey!##OhHeyFixed_main_window")
     {
         _targetService = targetService;
         _emoteService = emoteService;
         _configService = configurationService;
+        _targetManager = targetManager;
+        _objectTable = objectTable;
 
         SizeConstraints = new WindowSizeConstraints
         {
@@ -54,7 +59,7 @@ public sealed class MainWindow : Window, IDisposable
 
     public override void Draw()
     {
-        using var tabBar = ImRaii.TabBar("##ohhey_main_tab_bar");
+        using var tabBar = ImRaii.TabBar("##OhHeyFixed_main_tab_bar");
         if (!tabBar) return;
         DrawTargetUi();
         DrawEmoteUi();
@@ -62,7 +67,7 @@ public sealed class MainWindow : Window, IDisposable
 
     private void DrawEmoteUi()
     {
-        using var tabItem = ImRaii.TabItem("Emotes##ohhey_emotes_tab");
+        using var tabItem = ImRaii.TabItem("Emotes##OhHeyFixed_emotes_tab");
         if (!tabItem) return;
         ImGui.TextUnformatted("Emote History");
         ImGui.SameLine();
@@ -73,20 +78,30 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.Separator();
         const int length = EmoteService.MaxEmoteHistory + 1;
         var textWidth = ImGui.CalcTextSize(SampleText).X;
-        using var listBox = ImRaii.ListBox("##ohhey_emote_list",
+        using var listBox = ImRaii.ListBox("##OhHeyFixed_emote_list",
             new Vector2(textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
         if (!listBox) return;
         ImGui.PushItemWidth(-1);
+
+        int i = 0;
         foreach (var emote in _emoteService.EmoteHistory)
         {
-            ImGui.TextColored(KnownColor.LightGray.Vector(), $"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName.ToString()}");
+            ImGui.PushStyleColor(ImGuiCol.Text, KnownColor.LightGray.Vector());
+
+            if (ImGui.Selectable($"{emote.Timestamp:HH:mm:ss} {emote.InitiatorName} used {emote.EmoteName}##emote_{i}"))
+            {
+                TargetPlayer(emote.InitiatorId);
+            }
+
+            ImGui.PopStyleColor();
+            i++;
         }
         ImGui.PopItemWidth();
     }
 
     private void DrawTargetUi()
     {
-        using var tabItem = ImRaii.TabItem("Targets##ohhey_targets_tab");
+        using var tabItem = ImRaii.TabItem("Targets##OhHeyFixed_targets_tab");
         if (!tabItem) return;
         ImGui.TextUnformatted("Target History");
         ImGui.SameLine();
@@ -98,14 +113,17 @@ public sealed class MainWindow : Window, IDisposable
         var length = Math.Clamp(_targetService.CurrentTargets.Count + _targetService.TargetHistory.Count + 1, 10, 20) +1;
 
         var textWidth = ImGui.CalcTextSize(SampleText).X;
-        using var listBox = ImRaii.ListBox("##ohhey_target_list", new Vector2(textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
+        using var listBox = ImRaii.ListBox("##OhHeyFixed_target_list", new Vector2(textWidth, length * ImGui.GetTextLineHeightWithSpacing()));
         if (!listBox) return;
         ImGui.PushItemWidth(-1);
 
         for (var i = _targetService.CurrentTargets.Count - 1; i >= 0; i--)
         {
             var target = _targetService.CurrentTargets[i];
-            ImGui.TextUnformatted($"{target.Timestamp:HH:mm:ss} {target.Name}");
+            if (ImGui.Selectable($"{target.Timestamp:HH:mm:ss} {target.Name}##{target.GameObjectId}_{i}"))
+            {
+                TargetPlayer(target.GameObjectId);
+            }
         }
 
         if (_targetService.CurrentTargets.Count > 0)
@@ -116,7 +134,12 @@ public sealed class MainWindow : Window, IDisposable
         for (var i = _targetService.TargetHistory.Count - 1; i >= 0; i--)
         {
             var target = _targetService.TargetHistory[i];
-            ImGui.TextColored(KnownColor.LightGray.Vector(), $"{target.Timestamp:HH:mm:ss} {target.Name}");
+            ImGui.PushStyleColor(ImGuiCol.Text, KnownColor.LightGray.Vector());
+            if (ImGui.Selectable($"{target.Timestamp:HH:mm:ss} {target.Name}##{target.GameObjectId}_hist_{i}"))
+            {
+                TargetPlayer(target.GameObjectId);
+            }
+            ImGui.PopStyleColor();
         }
         ImGui.PopItemWidth();
     }
@@ -129,7 +152,7 @@ public sealed class MainWindow : Window, IDisposable
         return ImGui.SmallButton(label);
     }
 
-    private void OnConfigurationChanged(object? _, OhHeyConfiguration configuration)
+    private void OnConfigurationChanged(object? _, OhHeyFixedConfiguration configuration)
     {
         RespectCloseHotkey = configuration.EnableMainWindowCloseHotkey;
     }
@@ -137,5 +160,14 @@ public sealed class MainWindow : Window, IDisposable
     public void Dispose()
     {
         _configService.ConfigurationChanged -= OnConfigurationChanged;
+    }
+
+    private void TargetPlayer(ulong objectId)
+    {
+        var player = _objectTable.FirstOrDefault(x => x.GameObjectId == objectId);
+        if (player != null)
+        {
+            _targetManager.Target = player;
+        }
     }
 }

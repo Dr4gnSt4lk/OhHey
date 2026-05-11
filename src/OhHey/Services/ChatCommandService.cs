@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Game.Command;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
-using OhHey.UI;
+using OhHeyFixed.UI;
 
-namespace OhHey.Services;
+namespace OhHeyFixed.Services;
 
 public sealed class ChatCommandService : IDisposable
 {

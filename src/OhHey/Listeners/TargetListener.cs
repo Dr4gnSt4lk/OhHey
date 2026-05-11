@@ -1,12 +1,11 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Diagnostics;
-using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Plugin.Services;
 
-namespace OhHey.Listeners;
+namespace OhHeyFixed.Listeners;
 
 public sealed class TargetListener : IDisposable
 {
@@ -45,7 +44,7 @@ public sealed class TargetListener : IDisposable
 
     private void CheckForTargets()
     {
-        var currentPlayer = _clientState.LocalPlayer;
+        var currentPlayer = _objectTable.LocalPlayer;
         if (currentPlayer == null) return;
 
         var targetingPlayers = _objectTable.PlayerObjects
@@ -54,6 +53,7 @@ public sealed class TargetListener : IDisposable
                 ? IsLocalPlayerTargeting(currentPlayer.GameObjectId)
                 : chara.TargetObjectId == currentPlayer.GameObjectId
             )
+            .Select(player => (player as IPlayerCharacter)!)
             .ToList();
 
         // If we have no players currently targeting us, we can clear the old list directly.
@@ -68,7 +68,7 @@ public sealed class TargetListener : IDisposable
         {
             _lastTargetingPlayers.Add(targetingPlayer.GameObjectId);
             var targetEvent = new TargetEvent(targetingPlayer.GameObjectId, targetingPlayer.Name.ToString(),
-                targetingPlayer.Name, targetingPlayer.GameObjectId == currentPlayer.GameObjectId, DateTime.Now);
+                targetingPlayer.HomeWorld.RowId, targetingPlayer.GameObjectId == currentPlayer.GameObjectId, DateTime.Now);
             OnTarget(targetEvent);
         }
 

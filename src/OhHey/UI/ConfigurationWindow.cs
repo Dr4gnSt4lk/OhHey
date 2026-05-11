@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using System.Numerics;
@@ -7,17 +7,17 @@ using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using JetBrains.Annotations;
-using OhHey.Services;
+using OhHeyFixed.Services;
 
-namespace OhHey.UI;
+namespace OhHeyFixed.UI;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public class ConfigurationWindow : Window
 {
     private readonly ConfigurationService _configService;
-    private OhHeyConfiguration Config => _configService.Configuration;
+    private OhHeyFixedConfiguration Config => _configService.Configuration;
 
-    public ConfigurationWindow(ConfigurationService configService) : base("Oh Hey! Configuration##ohhey_config_window")
+    public ConfigurationWindow(ConfigurationService configService) : base("Oh Hey! Configuration##OhHeyFixed_config_window")
     {
         _configService = configService;
 
@@ -29,7 +29,7 @@ public class ConfigurationWindow : Window
 
     public override void Draw()
     {
-        using var tabBar = ImRaii.TabBar("##ohhey_config_tab_bar");
+        using var tabBar = ImRaii.TabBar("##OhHeyFixed_config_tab_bar");
         if (!tabBar) return;
         GeneralConfig();
         TargetConfig();
@@ -39,7 +39,7 @@ public class ConfigurationWindow : Window
 
     private void GeneralConfig()
     {
-        using var tabItem = ImRaii.TabItem("General##ohhey_config_tab_general");
+        using var tabItem = ImRaii.TabItem("General##OhHeyFixed_config_tab_general");
         if (!tabItem) return;
 
         var enableCloseHotkey = Config.EnableMainWindowCloseHotkey;
@@ -52,7 +52,7 @@ public class ConfigurationWindow : Window
 
     private void TargetConfig()
     {
-        using var tabItem = ImRaii.TabItem("Targets##ohhey_config_tab_target");
+        using var tabItem = ImRaii.TabItem("Targets##OhHeyFixed_config_tab_target");
         if (!tabItem) return;
 
         ImGui.TextUnformatted("Notification Settings:");
@@ -104,7 +104,7 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
         var selectedIndex = _configService.Configuration.TargetSoundNotificationId;
-        using (var combo = ImRaii.Combo("##ohhey_config_combo_target_sound", $"SE.{selectedIndex}"))
+        using (var combo = ImRaii.Combo("##OhHeyFixed_config_combo_target_sound", $"SE.{selectedIndex}"))
         {
             if (combo)
             {
@@ -126,7 +126,7 @@ public class ConfigurationWindow : Window
             }
         }
         ImGui.SameLine();
-        if (ImGui.ArrowButton("##ohhey_config_button_target_sound_play", ImGuiDir.Right))
+        if (ImGui.ArrowButton("##OhHeyFixed_config_button_target_sound_play", ImGuiDir.Right))
         {
             UIGlobals.PlayChatSoundEffect(_configService.Configuration.TargetSoundNotificationId);
         }
@@ -140,7 +140,7 @@ public class ConfigurationWindow : Window
 
     private void EmoteConfig()
     {
-        using var tabItem = ImRaii.TabItem("Emotes##ohhey_config_tab_emote");
+        using var tabItem = ImRaii.TabItem("Emotes##OhHeyFixed_config_tab_emote");
         if (!tabItem) return;
 
         ImGui.TextUnformatted("Notification Settings:");
@@ -192,7 +192,7 @@ public class ConfigurationWindow : Window
 
         ImGui.TextUnformatted("Sound to play (SE.1 - SE.16)");
         var selectedIndex = _configService.Configuration.EmoteSoundNotificationId;
-        using (var combo = ImRaii.Combo("##ohhey_config_combo_emote_sound", $"SE.{selectedIndex}"))
+        using (var combo = ImRaii.Combo("##OhHeyFixed_config_combo_emote_sound", $"SE.{selectedIndex}"))
         {
             if (combo)
             {
@@ -214,7 +214,7 @@ public class ConfigurationWindow : Window
             }
         }
         ImGui.SameLine();
-        if (ImGui.ArrowButton("##ohhey_config_button_emote_sound_play", ImGuiDir.Right))
+        if (ImGui.ArrowButton("##OhHeyFixed_config_button_emote_sound_play", ImGuiDir.Right))
         {
             UIGlobals.PlayChatSoundEffect(_configService.Configuration.EmoteSoundNotificationId);
         }

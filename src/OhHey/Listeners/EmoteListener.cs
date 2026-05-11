@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Game.ClientState.Objects.SubKinds;
@@ -7,12 +7,11 @@ using Dalamud.Plugin.Services;
 using Dalamud.Utility.Signatures;
 using Lumina.Excel.Sheets;
 
-namespace OhHey.Listeners;
+namespace OhHeyFixed.Listeners;
 
 public sealed class EmoteListener : IDisposable
 {
     private readonly IPluginLog _logger;
-    private readonly IClientState _clientState;
     private readonly IObjectTable _objectTable;
     private readonly IDataManager _dataManager;
 
@@ -26,10 +25,9 @@ public sealed class EmoteListener : IDisposable
     [Signature("E8 ?? ?? ?? ?? 48 8D 8B ?? ?? ?? ?? 4C 89 74 24", DetourName = nameof(OnEmoteHook))]
     private readonly Hook<OnEmoteDelegate>? _onEmoteHook = null!;
 
-    public EmoteListener(IPluginLog logger, IGameInteropProvider interopProvider, IClientState clientState, IObjectTable objectTable, IDataManager dataManager)
+    public EmoteListener(IPluginLog logger, IGameInteropProvider interopProvider, IObjectTable objectTable, IDataManager dataManager)
     {
         _logger = logger;
-        _clientState = clientState;
         _objectTable = objectTable;
         _dataManager = dataManager;
 
@@ -61,7 +59,7 @@ public sealed class EmoteListener : IDisposable
     private void HandleEmoteEvent(IntPtr initiatorAddress, ushort emoteId, ulong targetId)
     {
         // We aren't logged in, somehow ??
-        var localPlayer = _clientState.LocalPlayer;
+        var localPlayer = _objectTable.LocalPlayer;
         if (localPlayer is null)
         {
             return;
@@ -88,7 +86,7 @@ public sealed class EmoteListener : IDisposable
         var targetSelf = targetId == localPlayer.GameObjectId;
         var initiatorIsSelf = initiator.GameObjectId == localPlayer.GameObjectId;
 
-        var emoteEvent = new EmoteEvent(emote.Name, emoteId, initiator.Name, initiator.GameObjectId, target?.Name,
+        var emoteEvent = new EmoteEvent(emote.Name, emoteId, initiator.Name, initiator.HomeWorld.RowId, initiator.GameObjectId, target?.Name,
             targetId, targetSelf, initiatorIsSelf, DateTime.Now);
         OnEmote(emoteEvent);
     }

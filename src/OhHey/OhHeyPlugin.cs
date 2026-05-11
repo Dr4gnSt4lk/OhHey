@@ -1,23 +1,22 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using Dalamud.Game.ClientState.Objects;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
-using OhHey.Core.IoC;
-using OhHey.Listeners;
-using OhHey.Services;
-using OhHey.UI;
+using OhHeyFixed.Core.IoC;
+using OhHeyFixed.Listeners;
+using OhHeyFixed.Services;
+using OhHeyFixed.UI;
 
-namespace OhHey;
+namespace OhHeyFixed;
 
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
-public sealed class OhHeyPlugin : IDalamudPlugin
+public sealed class OhHeyFixedPlugin : IDalamudPlugin
 {
     private readonly IServiceProvider _provider;
-    public OhHeyPlugin(IDalamudPluginInterface pluginInterface)
+    public OhHeyFixedPlugin(IDalamudPluginInterface pluginInterface)
     {
         var services = new ServiceCollection();
         services

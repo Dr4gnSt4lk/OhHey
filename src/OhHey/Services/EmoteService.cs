@@ -1,13 +1,14 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using OhHey.Listeners;
+using OhHeyFixed.Listeners;
 
-namespace OhHey.Services;
+namespace OhHeyFixed.Services;
 
 public sealed class EmoteService : IDisposable
 {
@@ -73,7 +74,7 @@ public sealed class EmoteService : IDisposable
         var chatMessage = new SeStringBuilder()
             .AddUiForeground("[Oh Hey!] ", 537)
             .AddUiForegroundOff()
-            .Append(e.InitiatorName)
+            .Add(new PlayerPayload(e.InitiatorName.ToString(), e.InitiatorWorldId))
             .AddText($" used ")
             .AddUiForeground(e.EmoteName.ToString(), 1)
             .AddUiForegroundOff()

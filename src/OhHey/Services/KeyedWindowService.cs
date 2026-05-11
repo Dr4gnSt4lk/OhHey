@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using OhHey.UI;
+using OhHeyFixed.UI;
 
-namespace OhHey.Services;
+namespace OhHeyFixed.Services;
 
 public sealed class KeyedWindowService(IPluginLog logger, IDalamudPluginInterface pluginInterface, MainWindow mainWindow,
     ConfigurationWindow configWindow) : IDisposable

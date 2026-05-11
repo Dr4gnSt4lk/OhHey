@@ -1,18 +1,18 @@
-﻿// Copyright (c) 2025 MeiHasCrashed
+// Copyright (c) 2025 MeiHasCrashed
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
-namespace OhHey.Services;
+namespace OhHeyFixed.Services;
 
 public sealed class WindowService : IDisposable
 {
     private readonly IDalamudPluginInterface _pluginInterface;
     private readonly IPluginLog _logger;
     private readonly KeyedWindowService _keyedWindowService;
-    private readonly WindowSystem _windowSystem = new("OhHey");
+    private readonly WindowSystem _windowSystem = new("OhHeyFixed");
 
     public WindowService(IDalamudPluginInterface pluginInterface, IPluginLog logger,
         KeyedWindowService keyedWindowService, IEnumerable<Window> windows)
