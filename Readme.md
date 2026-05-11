@@ -4,7 +4,7 @@
         Oh Hey !
 </h1>
 <div align="center">
-    <h5>Ever wanted to get notified when someone targets you or emotes at you? Now you can !</h5>
+    <h5>Ever wanted to get notified when someone targets you or emotes at you? Now you can!</h5>
     <a href="https://github.com/MeiHasCrashed/OhHey/blob/main/docs/Readme.md"><img alt="Oh Hey! Documentation" src="https://img.shields.io/badge/Documentation-mediumpurple?style=for-the-badge"></a>
 </div>
 </section>
